@@ -24,13 +24,13 @@ fun rucksack1() {
 fun rucksack2() {
     var items = setOf<Char>()
     val res = File(ClassLoader.getSystemResource("dez03/input.txt").toURI()).readLines().mapIndexed { i, l ->
+        items = when (i % 3) {
+            0 -> l.toCharArray().toSet()
+            else -> items.intersect(l.toCharArray().toSet())
+        }
         when (i % 3) {
-            0 -> {items = l.toCharArray().toSet(); 0 }
-            1 -> {items = items.intersect(l.toCharArray().toSet()); 0}
-            else -> {
-                items = items.intersect(l.toCharArray().toSet())
-                if (items.first().code > 96) items.first().code - 96 else items.first().code - 38
-            }
+            2 -> if (items.first().code > 96) items.first().code - 96 else items.first().code - 38
+            else -> 0
         }
     }.sum()
     println(res)
